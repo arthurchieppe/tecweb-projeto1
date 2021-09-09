@@ -4,7 +4,7 @@ import urllib
 from database.database import Database, Note
 
 def index(request):
-
+    db = Database('note')
     if request.startswith('POST'):
         request = request.replace('\r', '')  # Remove caracteres indesejados
         # Cabeçalho e corpo estão sempre separados por duas quebras de linha
@@ -24,11 +24,13 @@ def index(request):
                 params["titulo"] = urllib.parse.unquote_plus(chave_valor[chave_valor.find("=")+1:], encoding="utf-8", errors="replace")
             if chave_valor.startswith("detalhes"):
                 params["detalhes"] = urllib.parse.unquote_plus(chave_valor[chave_valor.find("=")+1:], encoding="utf-8", errors="replace")
+        db.add(Note(None, params["titulo"], params["detalhes"]))
+
 
     # Cria uma lista de <li>'s para cada anotação
     # Se tiver curiosidade: https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions
     note_template = load_template('components/note.html')
-    db = Database('note')
+    # db = Database('note')
     print(db.get_all())
     notes_li = [
         note_template.format(title=dados.title, details=dados.content)
