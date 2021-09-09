@@ -33,7 +33,7 @@ def index(request):
     # db = Database('note')
     print(db.get_all())
     notes_li = [
-        note_template.format(title=dados.title, details=dados.content)
+        note_template.format(id=dados.id, title=dados.title, details=dados.content)
         for dados in db.get_all()
     ]
     
