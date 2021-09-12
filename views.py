@@ -10,21 +10,25 @@ def index(request):
         # Cabeçalho e corpo estão sempre separados por duas quebras de linha
         partes = request.split('\n\n')
         corpo = partes[1]
-        params = {}
-        # Preencha o dicionário params com as informações do corpo da requisição
-        # O dicionário conterá dois valores, o título e a descrição.
-        # Posteriormente pode ser interessante criar uma função que recebe a
-        # requisição e devolve os parâmetros para desacoplar esta lógica.
-        # Dica: use o método split da string e a função unquote_plus
+        if corpo.split("=")[0] == 'delete':
+            id = int(corpo.split("=")[1])
+            db.delete(id)
+        else:
+            params = {}
+            # Preencha o dicionário params com as informações do corpo da requisição
+            # O dicionário conterá dois valores, o título e a descrição.
+            # Posteriormente pode ser interessante criar uma função que recebe a
+            # requisição e devolve os parâmetros para desacoplar esta lógica.
+            # Dica: use o método split da string e a função unquote_plus
 
-        #titulo=Sorvete+de+banana 
-        #detalhes=Coloque+uma+banana+no+congelador+e+espere.+Pronto%21+1%2B1%3D
-        for chave_valor in corpo.split('&'):
-            if chave_valor.startswith("titulo"):
-                params["titulo"] = urllib.parse.unquote_plus(chave_valor[chave_valor.find("=")+1:], encoding="utf-8", errors="replace")
-            if chave_valor.startswith("detalhes"):
-                params["detalhes"] = urllib.parse.unquote_plus(chave_valor[chave_valor.find("=")+1:], encoding="utf-8", errors="replace")
-        db.add(Note(None, params["titulo"], params["detalhes"]))
+            #titulo=Sorvete+de+banana 
+            #detalhes=Coloque+uma+banana+no+congelador+e+espere.+Pronto%21+1%2B1%3D
+            for chave_valor in corpo.split('&'):
+                if chave_valor.startswith("titulo"):
+                    params["titulo"] = urllib.parse.unquote_plus(chave_valor[chave_valor.find("=")+1:], encoding="utf-8", errors="replace")
+                if chave_valor.startswith("detalhes"):
+                    params["detalhes"] = urllib.parse.unquote_plus(chave_valor[chave_valor.find("=")+1:], encoding="utf-8", errors="replace")
+            db.add(Note(None, params["titulo"], params["detalhes"]))
 
 
     # Cria uma lista de <li>'s para cada anotação

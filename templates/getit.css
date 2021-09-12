@@ -236,6 +236,32 @@ body {
   transform: rotate(0deg);
 }
 
+.notebtn {
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  align-content: flex-end;
+  
+}
+
+.card-delete {
+  font-family: 'Roboto', sans-serif;
+  
+  position: relative;
+  display: block;
+  padding: 0.5rem 0.5rem;
+  
+  overflow: hidden;
+  
+  border-width: 0;
+  outline: none;
+  border-radius: 1px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  
+  background-color: #f7d736;
+  
+  transition: background-color 0.3s;
+}
 
 
 
