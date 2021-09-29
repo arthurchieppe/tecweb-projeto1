@@ -2,6 +2,7 @@ import socket
 from pathlib import Path
 from utils import extract_route, read_file
 from views import index
+from utils import load_data, load_template
 
 CUR_DIR = Path(__file__).parent
 SERVER_HOST = 'localhost'
@@ -21,14 +22,17 @@ while True:
     print(request)
 
     route = extract_route(request)
+    print(f"CUR_DIR : {CUR_DIR}")
+    print(f"route : {route}")
 
     filepath = CUR_DIR / route
+    print(f"filepath : {filepath}")
     if filepath.is_file():
         response = read_file(filepath)
     elif route == '':
         response = index(request)
     else:
-        response = bytes()
+        response = load_template('404.html').encode()
 
     client_connection.sendall('HTTP/1.1 200 OK\n\n'.encode() + response)
 
